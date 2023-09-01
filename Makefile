@@ -31,7 +31,7 @@ TRACE_FST_FILE      := dump.fst
 ifdef ISA
 MEMSIZE             := 8*1024
 TIMEOUT             := 1000
-TRACE_BEGIN         := 32
+TRACE_BEGIN         := 0
 TRACE_END           := 1000
 endif
 
@@ -39,13 +39,13 @@ endif
 ifdef COREMARK
 MEMSIZE             := 32*1024
 TIMEOUT             := 2000000
-TRACE_BEGIN         := 32
+TRACE_BEGIN         := 0
 TRACE_END           := 1000000
 endif
 
 SIMRV               := simrv
 SIMRV_TRACE_RF_FILE  = simrv_$(TRACE_RF_FILE)
-SIMRV_TRACE_BEGIN   := 32
+SIMRV_TRACE_BEGIN   := 0
 SIMRV_TRACE_END     := 1000000
 
 #===============================================================================
@@ -217,7 +217,7 @@ $3:
 
 else # DIFF_TRACE_RF
 $3:
-	@echo $$@                                                              $$(output)
+	@echo $$@ simrv                                                        $$(output)
 	@echo ---------------------------------------------------------------- $$(output)
 	@$(SIMRV) -a -m $4/$$@.bin -t $$(SIMRV_TRACE_BEGIN) $$(SIMRV_TRACE_END)
 	@mv trace.txt $$(TRACE_DIR)/$$@_$$(SIMRV_TRACE_RF_FILE)

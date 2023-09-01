@@ -17,6 +17,7 @@ module regfile #(
 );
 
     reg [XLEN-1:0] ram [0:31];
+    integer i; initial for (i=0; i<32; i=i+1) ram[i]=32'h00000000;
 
     assign rdata1 = (rs1==5'd0) ? {XLEN{1'b0}} : ram[rs1];
     assign rdata2 = (rs2==5'd0) ? {XLEN{1'b0}} : ram[rs2];
