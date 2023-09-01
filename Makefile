@@ -20,7 +20,7 @@ TRACE_RF_FILE       := trace_rf.txt
 
 #DIFF_TRACE_RF       := 1
 
-#TRACE_VCD           := 1
+TRACE_VCD           := 1
 TRACE_VCD_FILE      := dump.vcd
 
 #TRACE_FST           := 1
