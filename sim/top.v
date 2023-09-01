@@ -61,13 +61,16 @@ module top;
         end
     end
 
-    reg sim_finish_t, sim_finish;
+    reg sim_finish_t1 = 1'b0, sim_finish_t2 = 1'b0, sim_finish = 1'b0;
     always @(posedge clk) begin
         if (rvbug0.dmem_wvalid && (rvbug0.dmem_waddr==`TOHOST_ADDR) && (rvbug0.dmem_wdata[17:16]==2'b10)) begin
-            sim_finish_t <= 1'b1;
+            sim_finish_t1 <= 1'b1;
         end
-        if (sim_finish_t) begin
-            sim_finish   <= 1'b1;
+        if (sim_finish_t1) begin
+            sim_finish_t2 <= 1'b1;
+        end
+        if (sim_finish_t2) begin
+            sim_finish    <= 1'b1;
         end
     end
 
@@ -99,7 +102,7 @@ module top;
     reg [63:0] trace_cntr = 1;
     integer i, j;
     always @(negedge clk) begin
-        if (rst_n && valid_instr) begin
+        if (rst_n && !sim_finish && valid_instr) begin
             if (`TRACE_BEGIN<=trace_cntr && trace_cntr<=`TRACE_END) begin
                 $fwrite(fd, "%08d %08x %08x\n", trace_cntr, pc, ir);
                 for (i=0; i<4; i=i+1) for (j=0; j<8; j=j+1) begin
